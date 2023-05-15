@@ -1,0 +1,32 @@
+package com.example.assignment2_grupp5;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
+public class Authentication{
+    private FirebaseAuth mAuth;
+
+    public authentication(){
+    mAuth = FirebaseAuth.getInstance();
+    }
+
+     public void signUp(String email, String password, OnCompleteListener<AuthResult> onCompleteListener)
+     {
+      mAuth.createUserWithEmailAndPassword(email, password)
+      .addOnCompleteListener(onCompleteListener);
+     }
+     public FirebaseUser getCurrentUser()
+     {
+       return mAuth.getCurrentUser();
+     }
+     public void sendVerificationEmail(FirebaseUser user, OnCompleteListener<Void> onCompleteListener)
+     {
+      user.sendEmailVerification()
+      .addOnCompleteListener(onCompleteListener);
+     }
+
+
+
+}
+
+

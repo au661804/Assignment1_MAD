@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "765154016887",
+    "project_id": "fridaybarapp-61f64",
+    "storage_bucket": "fridaybarapp-61f64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765154016887:android:ef240a79f5c54041f41072",
+        "android_client_info": {
+          "package_name": "com.example.assignment1_mad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765154016887-l9miglc52dd7tcus4t50u1or92bjcuvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoMRHPgXy1ALX0ta_YsXEwpzsdc6d-okg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765154016887-l9miglc52dd7tcus4t50u1or92bjcuvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
