@@ -1,5 +1,6 @@
 package com.example.assignment1_mad.components.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,11 +32,18 @@ fun DineRuter(service: FireStoreService, nav: NavController) {
 
     }
 
-    Column {
+    Column(
+        modifier = Modifier
+
+            .fillMaxSize()
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
             "DINE RUTER",
             fontSize = 48.sp,
             fontWeight = FontWeight.Bold,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
@@ -48,7 +57,7 @@ fun DineRuter(service: FireStoreService, nav: NavController) {
                     dropdownStates[route] = dropdownStates.getOrDefault(route, false).not()
                 }, modifier = Modifier.fillMaxWidth(), content = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Route: ${route.name}", fontSize = 35.sp)
+                        Text("Route: ${route.name}", fontSize = 35.sp, color = Color.Black)
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "Dropdown Arrow",

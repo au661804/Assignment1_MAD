@@ -98,7 +98,10 @@ Scaffold(topBar = {
                             selectedIndex = index
                             expanded = false
                         }) {
-                            Text(name, style = MaterialTheme.typography.body1, fontSize = 20.sp)
+                            Text(name,
+                                style = MaterialTheme.typography.body1,
+                                fontSize = 20.sp,
+                            color = Color.Black)
                         }
                     }
                 }

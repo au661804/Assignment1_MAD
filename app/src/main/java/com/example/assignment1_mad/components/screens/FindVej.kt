@@ -67,27 +67,27 @@ fun FindVej(locationService: Service) {
             Marker(
                 state = MarkerState(haddokks),
                 title = "Location: Haddokks",
-                snippet = "Marker in ${locationName.value}"
+                snippet = "Marker in Aarhus."
             )
             Marker(
                 state = MarkerState(approks),
                 title = "Location: Aproksimerbar",
-                snippet = "Marker in ${locationName.value}"
+                snippet = "Marker in Aarhus."
             )
             Marker(
                 state = MarkerState(umbi),
                 title = "Location: Medicinsk fredagsbar",
-                snippet = "Marker in ${locationName.value}"
+                snippet = "Marker in Aarhus."
             )
             Marker(
                 state = MarkerState(fysisk),
                 title = "Location: Fysisk fredagsbar",
-                snippet = "Marker in ${locationName.value}"
+                snippet = "Marker in Aarhus."
             )
             Marker(
                 state = MarkerState(biologisk),
                 title = "Location: Biologisk fredagsbar",
-                snippet = "Marker in ${locationName.value}"
+                snippet = "Marker in Aarhus."
             )
 
         }

@@ -5,6 +5,7 @@ import com.example.assignment1_mad.components.scaffold.BegivenhederModel
 import com.example.assignment1_mad.components.scaffold.Route
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.net.URL
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
