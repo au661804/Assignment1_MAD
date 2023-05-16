@@ -17,13 +17,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.assignment1_mad.services.LoginService
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
 const val TAG_SIGNUP = "SIGNUP"
 
 @Composable
-fun SignUp(service: LoginService, nav: NavController )
-{
+fun SignUp(service: LoginService, nav: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,17 +44,19 @@ fun SignUp(service: LoginService, nav: NavController )
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        OutlinedTextField(value = email.value,
+        OutlinedTextField(
+            value = email.value,
             onValueChange = { email.value = it },
-            label = { Text(text="Email: ")  },
+            label = { Text(text = "Email: ") },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)
         )
-        OutlinedTextField(value = password.value,
+        OutlinedTextField(
+            value = password.value,
             onValueChange = { password.value = it },
-            label = { Text(text="Password") },
+            label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             modifier = Modifier
@@ -63,13 +66,23 @@ fun SignUp(service: LoginService, nav: NavController )
         Button(
             onClick = {
                 scope.launch {
-                    val user= service.signup(email.value.text,password.value.text)
-                    //try catch håndere hvis det fejler.
-                    nav.navigate("LOGIN")
-
-
+                    try {
+                        val user = service.signup(email.value.text, password.value.text)
+                        nav.navigate("LOGIN")
+                    } catch (e: Exception) {
+                        when (e) {
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                // skrive noget når email eller password er forkert
+                            }
+                            is FirebaseAuthInvalidUserException -> {
+                                // når user is not found eller andet.
+                            }
+                            else -> {
+                                // alt andet
+                            }
+                        }
+                    }
                 }
-
             }, colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(android.graphics.Color.parseColor("#ffa34f"))
             ), modifier = Modifier.padding(16.dp)
@@ -92,13 +105,15 @@ fun SignUp(service: LoginService, nav: NavController )
             }
 
         }
-        Button(onClick = {
-            nav.navigate("LogIn")
-        },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(android.graphics.Color.parseColor("#FFFFFF")
+        Button(
+            onClick = {
+                nav.navigate("LogIn")
+            }, colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(
+                    android.graphics.Color.parseColor("#FFFFFF")
                 )
-            ), modifier = Modifier.padding(16.dp)) {
+            ), modifier = Modifier.padding(16.dp)
+        ) {
             Box(
                 modifier = Modifier
                     .padding(7.dp)

@@ -17,11 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.assignment1_mad.R
+import com.example.assignment1_mad.services.LoginService
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 const val TAG_LOGINSIGNUPSTART = "LOGINSIGNUPSTART"
 
+val auth = Firebase.auth
 @Composable
-fun LoginSignUp_startwindow(navigateSignUp: () -> Unit, navigateLogIn: () -> Unit) {
+fun LoginSignUp_startwindow(navigateSignUp: () -> Unit, navigateLogIn: () -> Unit, service:LoginService) {
+service.logOut(auth) //Logger bruger ud
+
     Column(
         modifier = Modifier.fillMaxWidth()
             .background(Color.White),

@@ -6,10 +6,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.assignment1_mad.services.LoginService
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
 const val TAG_LOGIN = "LOGIN"
@@ -66,11 +65,25 @@ fun LogIn(service: LoginService, nav: NavController) {
 
         Button(
             onClick = {
-                scope.launch {
-                    service.login(email.value.text,password.value.text)
-                    //try catch håndere hvis det fejler.
-                    nav.navigate("HOVEDMENU")
 
+                scope.launch {
+                    try {
+                        service.login(email.value.text, password.value.text)
+                        //try catch
+                        nav.navigate("HOVEDMENU")
+                    } catch (e: Exception) {
+                        when (e) {
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                // handle invalid email or password
+                            }
+                            is FirebaseAuthInvalidUserException -> {
+                                // handle user not found
+                            }
+                            else -> {
+                                // handle other exceptions
+                            }
+                        }
+                    }
                 }
             },
             colors = ButtonDefaults.buttonColors(
