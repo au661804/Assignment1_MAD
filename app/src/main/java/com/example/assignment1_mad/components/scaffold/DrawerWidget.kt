@@ -10,24 +10,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun Drawer(title: String, menuItems: List<MenuItemModel>) {
-    Column(
-        modifier = Modifier.background(Color.White)
-    ) {
+        Column(
+            modifier = Modifier.background(Color.White)
+        ) {
 
-        DrawerHeader(title)
-        DrawerBody(menuItems)
+            DrawerHeader(title)
+            DrawerBody(menuItems)
 
-        Spacer(modifier = Modifier.height(150.dp))
+            Spacer(modifier = Modifier.height(150.dp))
 
 
+        }
     }
-}
+
 
 @Composable
 fun DrawerHeader(title: String) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,6 +47,7 @@ fun DrawerHeader(title: String) {
 
 @Composable
 fun DrawerBody(menuItems: List<MenuItemModel>) {
+
     LazyColumn(Modifier.background(color = Color.White)) {
         items(menuItems) { item ->
             MenuItem(menuItem = item)

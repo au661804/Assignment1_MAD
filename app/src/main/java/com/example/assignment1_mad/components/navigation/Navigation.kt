@@ -9,6 +9,8 @@ import com.example.assignment1_mad.components.screens.*
 import com.example.assignment1_mad.services.FireStoreService
 import com.example.assignment1_mad.services.LoginService
 import com.example.assignment1_mad.services.Service
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun Navigation(
@@ -16,13 +18,11 @@ fun Navigation(
     locationService: Service,
     firestoreService: FireStoreService,
     loginService:LoginService) {
-
-
-    NavHost(navController = navController, startDestination = "BEGIVENHEDER") {
-
+    val auth = Firebase.auth
+    NavHost(navController = navController, startDestination = "LOGINSIGNUPSTART") {
         composable("LOGINSIGNUPSTART"){
             LoginSignUp_startwindow(navigateSignUp={navController.navigate("SIGNUP")},
-                navigateLogIn = {navController.navigate("LOGIN")})
+                navigateLogIn = {navController.navigate("LOGIN")},service=loginService)
 
         }
         composable("FINDVEJ") {

@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -35,7 +37,7 @@ import java.util.*
 
 class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var geoCoder: Geocoder;
+    private lateinit var geoCoder: Geocoder
     private lateinit var locationService: Service
 
 
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
         //Authentication
         val auth = Firebase.auth
-        FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(this)
         val loginService = LoginService(auth)
         Firebase.firestore.app
         val db = FirebaseFirestore.getInstance()
@@ -54,50 +56,102 @@ class MainActivity : ComponentActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         geoCoder = Geocoder(this, Locale.getDefault())
         locationService = Service(fusedLocationClient, this, geoCoder)
+
         setContent {
             Assignment1_MADTheme() {
                 val scaffoldState = rememberScaffoldState()
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
+
+
                 val menuItems = listOf(
-
-                    MenuItemModel("TDF", "Tour de Fredagsbar", Icons.Default.Home, "TDF") {
-                        Log.v("Drawer", "click TDF")
-                        if (scaffoldState.drawerState.isOpen) {
-                            scope.launch { scaffoldState.drawerState.open() }
+                    //Tourdefredagsbar menuitem
+                    if (auth.currentUser?.email != null) {
+                        MenuItemModel("TDF", "Tour de Fredagsbar", Icons.Default.Home, "TDF") {
+                            Log.v("Drawer", "click TDF")
+                            if (scaffoldState.drawerState.isOpen) {
+                                scope.launch { scaffoldState.drawerState.open() }
+                            }
+                            navController.navigate("TDF")
                         }
-
-                        navController.navigate("TDF")
-
+                    } else {
+                        MenuItemModel("TDF", "Tour de Fredagsbar", Icons.Default.Lock, "TDF") {
+                            Log.v("Drawer", "click TDF but enabled")
+                        }
                     },
+
+                    //Findvej menuitem
+                    if (auth.currentUser?.email != null) {
                     MenuItemModel("FindVej", "Find Vej", Icons.Default.Settings, "Settings") {
                         Log.v("Drawer", "Find vej clicked")
                         if (scaffoldState.drawerState.isOpen) {
                             scope.launch { scaffoldState.drawerState.close() }
                         }
                         navController.navigate("FINDVEJ")
-                    },
-                    MenuItemModel("DineRuter", "Dine Ruter", Icons.Default.Settings, "Settings") {
-                        Log.v("Drawer", "Dine ruter clicked")
-                        if (scaffoldState.drawerState.isOpen) {
-                            scope.launch { scaffoldState.drawerState.close() }
+                    }
+                    } else {
+                        MenuItemModel("FindVej", "Find Vej", Icons.Default.Settings, "Settings") {
+                            Log.v("Drawer", "Find vej clicked but enabled")
                         }
-                        navController.navigate("DINERUTER")
                     },
-                    MenuItemModel("Opretbegivenhed", "Opret begivenhed", Icons.Default.Settings, "Settings") {
-                        Log.v("Drawer", "Opret Begivenhed clicked")
-                        if (scaffoldState.drawerState.isOpen) {
-                            scope.launch { scaffoldState.drawerState.close() }
+
+                    //DineRuter menuitem
+                    if (auth.currentUser?.email != null) {
+                        MenuItemModel(
+                            "DineRuter", "Dine Ruter", Icons.Default.Settings, "Settings"
+                        ) {
+                            Log.v("Drawer", "Dine ruter clicked")
+                            if (scaffoldState.drawerState.isOpen) {
+                                scope.launch { scaffoldState.drawerState.close() }
+                            }
+                            navController.navigate("DINERUTER")
                         }
-                        navController.navigate("OPRETBEGIVENHED")
+                    } else {
+                        MenuItemModel(
+                            "DineRuter", "Dine Ruter", Icons.Default.Lock, "Settings"
+                        ) {
+                            Log.v("Drawer", "Dine ruter clicked but enabled")
+                        }
                     },
-                    MenuItemModel("Begivenheder", "Begivenheder", Icons.Default.Settings, "Settings") {
+
+                    //Opretbegivenhed menuitem
+                    if (auth.currentUser?.email != null) {
+                        MenuItemModel(
+                            "Opretbegivenhed",
+                            "Opret begivenhed",
+                            Icons.Default.Settings,
+                            "Settings"
+                        ) {
+                            Log.v("Drawer", "Opret Begivenhed clicked")
+                            if (scaffoldState.drawerState.isOpen) {
+                                scope.launch { scaffoldState.drawerState.close() }
+                            }
+                            navController.navigate("OPRETBEGIVENHED")
+                        }
+                    } else {
+                        MenuItemModel(
+                            "Opretbegivenhed",
+                            "Opret begivenhed",
+                            Icons.Default.Lock,
+                            "Settings"
+                        ) {
+                            Log.v("Drawer", "Opret Begivenhed clicked but enabled")
+                        }
+                    },
+
+                    //Begivenheder menuitem
+                    MenuItemModel(
+                        "Begivenheder", "Begivenheder", Icons.Default.Settings, "Settings"
+                    ) {
                         Log.v("Drawer", "Begivenheder clicked")
                         if (scaffoldState.drawerState.isOpen) {
                             scope.launch { scaffoldState.drawerState.close() }
                         }
                         navController.navigate("BEGIVENHEDER")
-                    }, MenuItemModel("LOGOUT", "Log ud", Icons.Default.Home, "LOGOUT") {
+                    },
+
+
+                    MenuItemModel("LOGOUT", "Log ud", Icons.Default.Home, "LOGOUT") {
                         Log.v("Drawer", "click LogOut")
                         if (scaffoldState.drawerState.isOpen) {
                             scope.launch { scaffoldState.drawerState.close() }
@@ -106,25 +160,27 @@ class MainActivity : ComponentActivity() {
 
                     },
                 )
+
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White,
 
-
-                ) {
+                    ) {
                     ScaffoldWidget(menuItems, scaffoldState) {
-                        Navigation(navController, locationService,firestoreService, loginService)
+                        Navigation(
+                            navController, locationService, firestoreService, loginService
+                        )
                     }
                 }
+
             }
         }
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         Log.v("MAINACTIVITY", permissions.toString())
         when (requestCode) {
