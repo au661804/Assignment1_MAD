@@ -66,7 +66,6 @@ fun LogIn(service: LoginService, nav: NavController) {
                 scope.launch {
                     try {
                         service.login(email.value.text, password.value.text)
-                        //try catch
                         nav.navigate("HOVEDMENU")
                     } catch (e: Exception) {
                         when (e) {

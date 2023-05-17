@@ -46,9 +46,8 @@ fun DineRuter(service: FireStoreService, nav: NavController) {
             color = Color.Black,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
+
         )
-
-
         val dropdownStates = remember { mutableStateMapOf<Route, Boolean>() }
 
         Route.value.forEach { route ->
@@ -61,6 +60,7 @@ fun DineRuter(service: FireStoreService, nav: NavController) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "Dropdown Arrow",
+                            tint=Color.Black
                         )
                     }
                 })
@@ -70,6 +70,9 @@ fun DineRuter(service: FireStoreService, nav: NavController) {
                     DropdownMenu(
                         expanded = true,
                         onDismissRequest = { dropdownStates[route] = false },
+                        modifier = Modifier
+                            .background(Color.LightGray) // Replace Color.Red with the desired background color
+                            .padding(20.dp)
                     ) {
                         bars.forEach { bar ->
                             Box(
