@@ -2,10 +2,7 @@ package com.example.assignment1_mad.components.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +38,8 @@ fun LogIn(service: LoginService, nav: NavController) {
         )
         val email = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
+        val errorMessage = remember { mutableStateOf("") }
+        val showErrorSnackbar = remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
 
         OutlinedTextField(
@@ -60,12 +59,10 @@ fun LogIn(service: LoginService, nav: NavController) {
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
+                .padding(bottom = 16.dp),
         )
-
         Button(
             onClick = {
-
                 scope.launch {
                     try {
                         service.login(email.value.text, password.value.text)
@@ -74,15 +71,16 @@ fun LogIn(service: LoginService, nav: NavController) {
                     } catch (e: Exception) {
                         when (e) {
                             is FirebaseAuthInvalidCredentialsException -> {
-                                // handle invalid email or password
+                                errorMessage.value = "Invalid email or password"
                             }
                             is FirebaseAuthInvalidUserException -> {
-                                // handle user not found
+                                errorMessage.value = "Error, something is wrong"
                             }
                             else -> {
-                                // handle other exceptions
+                                errorMessage.value = "Error, something is wrong"
                             }
                         }
+                        showErrorSnackbar.value = true
                     }
                 }
             },
@@ -108,6 +106,24 @@ fun LogIn(service: LoginService, nav: NavController) {
                 )
             }
 
+        }
+        if (showErrorSnackbar.value) {
+            Snackbar(
+                action = {
+                    Button(
+                        onClick = { showErrorSnackbar.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Text("Dismiss", color = Color.White)
+                    }
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(errorMessage.value, color = Color.White)
+            }
         }
     }
 }

@@ -3,10 +3,7 @@ package com.example.assignment1_mad.components.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,9 +16,12 @@ import androidx.navigation.NavController
 import com.example.assignment1_mad.services.LoginService
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 const val TAG_SIGNUP = "SIGNUP"
+
 
 @Composable
 fun SignUp(service: LoginService, nav: NavController) {
@@ -63,6 +63,8 @@ fun SignUp(service: LoginService, nav: NavController) {
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         )
+        val errorMessage = remember { mutableStateOf("") }
+        val showErrorSnackbar = remember { mutableStateOf(false) }
         Button(
             onClick = {
                 scope.launch {
@@ -72,17 +74,19 @@ fun SignUp(service: LoginService, nav: NavController) {
                     } catch (e: Exception) {
                         when (e) {
                             is FirebaseAuthInvalidCredentialsException -> {
-                                // skrive noget når email eller password er forkert
+                                errorMessage.value = "Invalid email or password"
                             }
                             is FirebaseAuthInvalidUserException -> {
-                                // når user is not found eller andet.
+                                errorMessage.value = "Error, something is wrong"
                             }
                             else -> {
-                                // alt andet
+                                errorMessage.value = "Error, something is wrong"
                             }
                         }
+                        showErrorSnackbar.value = true
                     }
                 }
+
             }, colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(android.graphics.Color.parseColor("#ffa34f"))
             ), modifier = Modifier.padding(16.dp)
@@ -131,8 +135,26 @@ fun SignUp(service: LoginService, nav: NavController) {
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-
+        }
+        if (showErrorSnackbar.value) {
+            Snackbar(
+                action = {
+                    Button(
+                        onClick = { showErrorSnackbar.value = false },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Text("Dismiss", color = Color.White)
+                    }
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(errorMessage.value, color = Color.White)
+            }
         }
 
     }
+
 }
