@@ -8,15 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.rememberNavController
 import com.example.assignment1_mad.components.navigation.Navigation
 import com.example.assignment1_mad.components.scaffold.MenuItemModel
@@ -48,7 +46,6 @@ class MainActivity : ComponentActivity() {
         //Authentication
         val auth = Firebase.auth
         FirebaseApp.initializeApp(this)
-        val loginService = LoginService(auth)
         Firebase.firestore.app
         val db = FirebaseFirestore.getInstance()
         val firestoreService = FireStoreService(db, auth)
@@ -62,12 +59,45 @@ class MainActivity : ComponentActivity() {
                 val scaffoldState = rememberScaffoldState()
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
+                val authenticatedState = remember { mutableStateOf(auth.currentUser?.email != null) }
+                val loginService = LoginService(auth, authenticatedState)
+
 
 
                 val menuItems = listOf(
+                    //Homepage menuitem
+                    if (auth.currentUser?.email != null) {
+                        MenuItemModel(
+                            "Forside",
+                            "Forside",
+                            painterResource(id = R.drawable.baseline_home_24),
+                            "Forside"
+                        ) {
+                            Log.v("Drawer", "click Forside")
+                            if (scaffoldState.drawerState.isOpen) {
+                                scope.launch { scaffoldState.drawerState.open() }
+                            }
+                            navController.navigate("FORSIDE")
+                        }
+                    } else {
+                        MenuItemModel(
+                            "Forside",
+                            "Forside",
+                            painterResource(id = R.drawable.baseline_home_24),
+                            "Forside"
+                        ) {
+                            Log.v("Drawer", "click Forside but not enabled")
+                        }
+                    },
+
                     //Tourdefredagsbar menuitem
                     if (auth.currentUser?.email != null) {
-                        MenuItemModel("TDF", "Tour de Fredagsbar", Icons.Default.Home, "TDF") {
+                        MenuItemModel(
+                            "TDF",
+                            "Tour de Fredagsbar",
+                            painterResource(id = R.drawable.tdf),
+                            "TDF"
+                        ) {
                             Log.v("Drawer", "click TDF")
                             if (scaffoldState.drawerState.isOpen) {
                                 scope.launch { scaffoldState.drawerState.open() }
@@ -75,30 +105,42 @@ class MainActivity : ComponentActivity() {
                             navController.navigate("TDF")
                         }
                     } else {
-                        MenuItemModel("TDF", "Tour de Fredagsbar", Icons.Default.Lock, "TDF") {
-                            Log.v("Drawer", "click TDF but enabled")
+                        MenuItemModel(
+                            "TDF",
+                            "Tour de Fredagsbar",
+                            painterResource(id = R.drawable.tdf),
+                            "TDF"
+                        ) {
+                            Log.v("Drawer", "click TDF but not enabled")
                         }
                     },
 
                     //Findvej menuitem
-                    if (auth.currentUser?.email != null) {
-                    MenuItemModel("FindVej", "Find Vej", Icons.Default.Settings, "Settings") {
+                    // if (auth.currentUser?.email != null) {
+                    MenuItemModel(
+                        "FindVej",
+                        "Find Vej",
+                        painterResource(id = R.drawable.findvej_icon),
+                        "Settings"
+                    ) {
                         Log.v("Drawer", "Find vej clicked")
                         if (scaffoldState.drawerState.isOpen) {
                             scope.launch { scaffoldState.drawerState.close() }
                         }
                         navController.navigate("FINDVEJ")
-                    }
-                    } else {
-                        MenuItemModel("FindVej", "Find Vej", Icons.Default.Settings, "Settings") {
-                            Log.v("Drawer", "Find vej clicked but enabled")
-                        }
                     },
-
+//                    } else {
+//                        MenuItemModel("FindVej", "Find Vej", painterResource(id = R.drawable.findvej_icon), "Settings") {
+//                            Log.v("Drawer", "Find vej clicked  not but enabled")
+//                        }
+//                    },
                     //DineRuter menuitem
-                    if (auth.currentUser?.email != null) {
+                   // if (auth.currentUser?.email != null) {
                         MenuItemModel(
-                            "DineRuter", "Dine Ruter", Icons.Default.Settings, "Settings"
+                            "DineRuter",
+                            "Dine Ruter",
+                            painterResource(id = R.drawable.tourdefre),
+                            "Settings"
                         ) {
                             Log.v("Drawer", "Dine ruter clicked")
                             if (scaffoldState.drawerState.isOpen) {
@@ -106,52 +148,49 @@ class MainActivity : ComponentActivity() {
                             }
                             navController.navigate("DINERUTER")
                         }
-                    } else {
-                        MenuItemModel(
-                            "DineRuter", "Dine Ruter", Icons.Default.Lock, "Settings"
-                        ) {
-                            Log.v("Drawer", "Dine ruter clicked but enabled")
-                        }
-                    },
+//                    } else {
+//                        MenuItemModel(
+//                            "DineRuter",
+//                            "Dine Ruter",
+//                            painterResource(id = R.drawable.tourdefre),
+//                            "Settings"
+//                        ) {
+//                            Log.v("Drawer", "Dine ruter clicked not but enabled")
+//                        }
+//                    },
+                    ,
 
-                    //Opretbegivenhed menuitem
-                    if (auth.currentUser?.email != null) {
+                    //Begivenheder menuitem
+                  //  if (auth.currentUser?.email != null) {
                         MenuItemModel(
-                            "Opretbegivenhed",
-                            "Opret begivenhed",
-                            Icons.Default.Settings,
+                            "Begivenheder",
+                            "Begivenheder",
+                            painterResource(id = R.drawable.begivenheder_icon),
                             "Settings"
                         ) {
-                            Log.v("Drawer", "Opret Begivenhed clicked")
+                            Log.v("Drawer", "Begivenheder clicked")
                             if (scaffoldState.drawerState.isOpen) {
                                 scope.launch { scaffoldState.drawerState.close() }
                             }
-                            navController.navigate("OPRETBEGIVENHED")
+                            navController.navigate("BEGIVENHEDER")
                         }
-                    } else {
-                        MenuItemModel(
-                            "Opretbegivenhed",
-                            "Opret begivenhed",
-                            Icons.Default.Lock,
-                            "Settings"
-                        ) {
-                            Log.v("Drawer", "Opret Begivenhed clicked but enabled")
-                        }
-                    },
-
-                    //Begivenheder menuitem
+//                    } else {
+//                        MenuItemModel(
+//                            "Begivenheder",
+//                            "Begivenheder",
+//                            painterResource(id = R.drawable.begivenheder_icon),
+//                            "Settings"
+//                        ) {
+//                            Log.v("Drawer", "Begivenheder clicked but not enabled")
+//                        }
+//                    },
+                    ,
                     MenuItemModel(
-                        "Begivenheder", "Begivenheder", Icons.Default.Settings, "Settings"
+                        "LOGOUT",
+                        "Log ud",
+                        painterResource(id = R.drawable.logout),
+                        "LOGOUT"
                     ) {
-                        Log.v("Drawer", "Begivenheder clicked")
-                        if (scaffoldState.drawerState.isOpen) {
-                            scope.launch { scaffoldState.drawerState.close() }
-                        }
-                        navController.navigate("BEGIVENHEDER")
-                    },
-
-
-                    MenuItemModel("LOGOUT", "Log ud", Icons.Default.Home, "LOGOUT") {
                         Log.v("Drawer", "click LogOut")
                         if (scaffoldState.drawerState.isOpen) {
                             scope.launch { scaffoldState.drawerState.close() }
@@ -166,9 +205,11 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White,
+                    contentColor = Color.Black
 
-                    ) {
-                    ScaffoldWidget(menuItems, scaffoldState) {
+                ) {
+                    ScaffoldWidget(menuItems, scaffoldState,authenticatedState.value) {
+
                         Navigation(
                             navController, locationService, firestoreService, loginService
                         )

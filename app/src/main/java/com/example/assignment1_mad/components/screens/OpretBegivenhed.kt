@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +61,6 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
     var expanded by remember { mutableStateOf(false) }
 
     //Image
-
 
 
     //Caldendarstate trigger selection
@@ -136,6 +136,8 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
+        Spacer(modifier = Modifier.padding(bottom = 10.dp))
+
         Text(
             "Opret begivenhed",
             color = Color.Black,
@@ -144,10 +146,15 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
             textAlign = TextAlign.Center
         )
 
+        Divider(
+            color = Color(0xFFE9E5DE),
+            modifier = Modifier.width(320.dp)
+        )
+
         Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
 
-        PickImageFromGallery()
+        //PickImageFromGallery()
 
 
         Spacer(modifier = Modifier.padding(bottom = 25.dp))
@@ -162,8 +169,8 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                     .height(55.dp)
                     .focusRequester(focusRequester)
 
-                    .background(Color(0xE1D8B99E)),
-                textStyle = TextStyle(Color.Black,fontSize = 10.sp),
+                    .background(Color(0xFFDFDBD8)),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp),
 
 
                 onValueChange = {
@@ -176,7 +183,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                         text = "Navn på begivenhed",
                         color = Color(0xFF000000),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(2.dp)
 
@@ -209,7 +216,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                     .focusRequester(focusRequester)
 
 
-                    .background(Color(0xE1D8B99E)),
+                    .background(Color(0xFFE0DCD9)),
                 textStyle = TextStyle(Color.Black),
 
 
@@ -221,7 +228,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                         text = "Lokation for begivenhed",
                         color = Color(0xFF000000),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(2.dp)
 
@@ -250,7 +257,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                     .height(55.dp)
                     .focusRequester(focusRequester)
 
-                    .background(Color(0xE1D8B99E)),
+                    .background(Color(0xE1DFDBD7)),
                 textStyle = TextStyle(Color.Black),
 
 
@@ -262,7 +269,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                         text = "Beskrivelse af begivenhed",
                         color = Color(0xFF000000),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(2.dp)
 
@@ -287,19 +294,19 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
             Button(modifier = Modifier.size(width = 180.dp, height = 50.dp),
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFB1A0A0),
+                    backgroundColor = Color(0xFFB0F0DD),
 
                     contentColor = Color.Black
                 ),
                 onClick = { calendarState.show() }) {
-                Text(text = "Vælg dato", fontSize = 10.sp)
+                Text(text = "Vælg dato", fontSize = 12.sp)
             }
 
             TextField(
                 value = selectedDate.value,
                 readOnly = true,
                 onValueChange = { selectedDate.value = it },
-                textStyle = TextStyle(Color.Black,fontSize = 10.sp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp),
                 modifier = Modifier.size(width = 120.dp, height = 50.dp)
             )
         }
@@ -310,19 +317,19 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
             Button(modifier = Modifier.size(width = 180.dp, height = 50.dp),
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFB1A0A0),
+                    backgroundColor = Color(0xFFAFEFDC),
 
                     contentColor = Color.Black
                 ),
                 onClick = { clockStateStart.show() }) {
-                Text(text = "Vælg starttidspunkt",fontSize = 10.sp)
+                Text(text = "Vælg starttidspunkt", fontSize = 12.sp)
             }
             TextField(
                 value = selectedTimeStart.value,
                 readOnly = true,
                 singleLine = true,
                 onValueChange = { selectedTimeStart.value = it },
-                textStyle = TextStyle(Color.Black, fontSize = 10.sp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp),
                 modifier = Modifier.size(width = 120.dp, height = 60.dp)
             )
 
@@ -335,13 +342,13 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
             Button(modifier = Modifier.size(width = 180.dp, height = 50.dp),
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFB1A0A0),
+                    backgroundColor = Color(0xFFAEEEDB),
 
                     contentColor = Color.Black
                 ),
                 onClick = { clockStateEnd.show() }
             ) {
-                Text(text = "Vælg Sluttidspunkt",fontSize = 10.sp)
+                Text(text = "Vælg Sluttidspunkt", fontSize = 12.sp)
             }
 
             TextField(
@@ -349,24 +356,24 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                 readOnly = true,
                 singleLine = true,
                 onValueChange = { selectedTimeEnd.value = it },
-                textStyle = TextStyle(Color.Black,fontSize = 10.sp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp),
                 modifier = Modifier.size(width = 120.dp, height = 50.dp)
             )
+
         }
 
 
 
-        Spacer(modifier = Modifier.padding(bottom = 10.dp))
+        Spacer(modifier = Modifier.padding(bottom = 30.dp))
 
 
         // KNAP
         Button(
             onClick = {
 
-
                 scope.launch {
                     service.createBegivenhed(
-                        user.toString(),
+                        user?.email.toString(),
                         name.value,
                         selectedDate.value,
                         selectedTimeStart.value,
@@ -375,8 +382,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                         lokation.value,
 
 
-                    )
-
+                        )
 
                     isButtonClicked = true
                     GlobalScope.launch {
@@ -386,7 +392,6 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
 
                 }
 
-
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(android.graphics.Color.parseColor("#ffa34f")),
@@ -395,7 +400,7 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
             ),
             shape = RoundedCornerShape(percent = 20),
             modifier = Modifier.size(width = 300.dp, height = 40.dp),
-            enabled = selectedTimeEnd.value.isNotBlank()
+            enabled = selectedTimeStart.value.isNullOrBlank().not()
 
         )
         {
@@ -406,28 +411,37 @@ fun OpretBegivenhed(service: FireStoreService, nav: NavController) {
                 fontSize = 18.sp
             )
         }
-    }
 
-    if (isButtonClicked) {
+        if (isButtonClicked) {
         // Show the message box
-        Card(
+        Box(
             modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .wrapContentHeight(),
-
-            elevation = 8.dp
+                .background(Color(0xFF75A8CF))
+                .padding(5.dp),
+            contentAlignment = Alignment.CenterStart,
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text("$name er gemt")
+                Text("Din begivenhed er gemt!", color = Color.Black)
                 Spacer(modifier = Modifier.height(16.dp))
 
             }
+
+            name.value = ""
+            selectedDate.value = ""
+            selectedTimeStart.value = ""
+            selectedTimeEnd.value = ""
+            beskrivelse.value = ""
+            lokation.value = ""
         }
     }
+    }
+
+
+
 
 }
 
@@ -449,7 +463,7 @@ fun PickImageFromGallery() {
     Row(
         modifier = Modifier.fillMaxSize(),
         //verticalArrangement = Arrangement.Center,
-       // horizontalAlignment = Alignment.CenterHorizontally
+        // horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         imageUri?.let {

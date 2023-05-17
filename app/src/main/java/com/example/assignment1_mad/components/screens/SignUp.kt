@@ -124,7 +124,7 @@ fun SignUp(service: LoginService, nav: NavController) {
 
             ) {
                 Text(
-                    text = "Already a user? try Login",
+                    text = "Already a user? Try login!",
                     color = Color.Gray,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,

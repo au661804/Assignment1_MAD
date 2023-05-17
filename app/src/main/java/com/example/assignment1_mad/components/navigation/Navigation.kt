@@ -28,6 +28,9 @@ fun Navigation(
         composable("FINDVEJ") {
             FindVej(locationService)
         }
+        composable("FORSIDE") {
+            Hovedmenu(navController)
+        }
         composable("TDF") {
             TDF(firestoreService,navController)
         }

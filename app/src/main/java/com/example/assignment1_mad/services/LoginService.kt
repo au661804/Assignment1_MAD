@@ -1,6 +1,7 @@
 package com.example.assignment1_mad.services
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import com.example.assignment1_mad.components.scaffold.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.coroutines.resume
@@ -9,7 +10,7 @@ import kotlin.coroutines.suspendCoroutine
 
 
 
-class LoginService(private val auth: FirebaseAuth) {
+class LoginService(private val auth: FirebaseAuth, private val authenticatedState: MutableState<Boolean>) {
     companion object {
         const val TAG = "FIRE_STORE_SERVICE"
     }
@@ -18,6 +19,7 @@ class LoginService(private val auth: FirebaseAuth) {
 
     suspend fun login(email: String, password: String): User {
         return suspendCoroutine { continuation ->
+
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     try {
@@ -25,6 +27,7 @@ class LoginService(private val auth: FirebaseAuth) {
                             Log.d(TAG, "Logged in :success")
                             val user = auth.currentUser ?: throw Exception("Something wrong")
                             val SignedInUser = User(user)
+                            authenticatedState.value = true
                             continuation.resume(SignedInUser)
                         } else {
                             Log.w(TAG, "Logged in:failure", task.exception)
@@ -60,7 +63,7 @@ class LoginService(private val auth: FirebaseAuth) {
     }
     fun logOut(auth: FirebaseAuth) {
         auth.signOut()
-
+        authenticatedState.value = false
     }
 }
 

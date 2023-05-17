@@ -25,19 +25,25 @@ import com.google.firebase.ktx.Firebase
 const val TAG_LOGINSIGNUPSTART = "LOGINSIGNUPSTART"
 
 val auth = Firebase.auth
+
 @Composable
-fun LoginSignUp_startwindow(navigateSignUp: () -> Unit, navigateLogIn: () -> Unit, service:LoginService) {
-service.logOut(auth) //Logger bruger ud
+fun LoginSignUp_startwindow(
+    navigateSignUp: () -> Unit,
+    navigateLogIn: () -> Unit,
+    service: LoginService
+) {
+    service.logOut(auth) //Logger bruger ud
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(Color.White),
 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Spacer(modifier = Modifier.height(100.dp))
-        
+
         Image(
             painterResource(id = R.drawable.tdf_orig),
             contentDescription = "App Icon",

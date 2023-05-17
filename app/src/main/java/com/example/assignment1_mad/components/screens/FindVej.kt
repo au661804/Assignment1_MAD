@@ -61,13 +61,14 @@ fun FindVej(locationService: Service) {
                 state = MarkerState(position = currentPos.value),
                 title = "Location: ${locationName.value}",
                 snippet = "Marker in ${locationName.value}",
-                //icon = BitmapDescriptorFactory.fromResource(R.drawable.maps_person)
+                icon = BitmapDescriptorFactory.defaultMarker()
 
             )
             Marker(
                 state = MarkerState(haddokks),
                 title = "Location: Haddokks",
-                snippet = "Marker in Aarhus."
+                snippet = "Marker in Aarhus.",
+                //icon = BitmapDescriptor
             )
             Marker(
                 state = MarkerState(approks),

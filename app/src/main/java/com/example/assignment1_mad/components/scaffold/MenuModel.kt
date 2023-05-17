@@ -1,13 +1,13 @@
 package com.example.assignment1_mad.components.scaffold
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import com.google.firebase.auth.FirebaseUser
 import java.io.Serializable
 
 data class MenuItemModel(
     val id: String,
     val title: String,
-    val iconVector: ImageVector,
+    val image: Painter,
     val contentDescription: String,
     val onClick: () -> Unit
 )

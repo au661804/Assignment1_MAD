@@ -54,10 +54,16 @@ fun Begivenheder(service: FireStoreService, nav: NavController) {
                     "Begivenheder",
                     color = Color.Black,
                     fontWeight = FontWeight.Light,
-                    fontSize = 40.sp,
+                    fontSize = 35.sp,
                     textAlign = TextAlign.Center
                 )
             }
+
+            Divider(
+                color = Color(0xFFE9E5DE),
+                modifier = Modifier.width(320.dp)
+            )
+
             Row() {
                 Button(modifier = Modifier,
                     colors = ButtonDefaults.buttonColors(
@@ -96,7 +102,7 @@ fun Begivenheder(service: FireStoreService, nav: NavController) {
                                 .wrapContentSize()
                                 .width(350.dp)
                                 .height(30.dp),
-                            color = Color(0xFF3E690D)
+                            color = Color(0xFF61C0D8)
                         ) {
                             Row() {
                                 Text(

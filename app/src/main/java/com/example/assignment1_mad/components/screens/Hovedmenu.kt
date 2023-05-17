@@ -12,46 +12,85 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.assignment1_mad.*
 import com.example.assignment1_mad.R
 
-const val TAG_HOVEDMENU= "HOVEDMENU"
+const val TAG_HOVEDMENU = "HOVEDMENU"
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun Hovedmenu(nav: NavController){
+fun Hovedmenu(nav: NavController) {
+
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
+
+        TextAlign
+
+        Text(
+            "Hvad kan du finde?",
+            style = TextStyle(Color.Black, fontStyle = FontStyle.Italic),
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.background(Color.White)
+        )
+
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Image(
+            painter = painterResource(id = R.drawable.tdf_orig),
+            contentDescription = "Start-upIcon",
+            Modifier.size(200.dp), Alignment.Center
+        )
+
+        Spacer(modifier = Modifier.padding(bottom = 30.dp))
+
+        Row() {
+            Text(
+                "Planlæg din egen tour de fredagsbar!",
+                style = TextStyle(Color.Black, fontStyle = FontStyle.Italic),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.background(Color.White)
+            )}
+            Row() {
+                Text(
+                    "Se fredagsbarer og deres åbningstider.",
+                    style = TextStyle(Color.Black, fontStyle = FontStyle.Italic),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.background(Color.White)
+                )
+            }
+
+            Row() {
+                Text(
+                    "Se begivenheder hos din favorit fredagsbar.",
+                    style = TextStyle(Color.Black, fontStyle = FontStyle.Italic),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.background(Color.White)
+                )
+            }
 
 
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-
-            Spacer(modifier = Modifier.height(100.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.tdf_orig),
-                contentDescription = "Start-upIcon",
-                Modifier.size(200.dp), Alignment.Center
-            )
-
-            Spacer(modifier = Modifier.padding(bottom = 80.dp))
-
-
-            TextAlign
-            Text("Hvad kan du finde?", style = TextStyle(Color.Black, fontStyle = FontStyle(R.font.raleway_thin)),modifier = Modifier.background(Color.White))
-            Text("-Planlæg din egen tour de fredagsbar", style = TextStyle(Color.Black))
-            Text("-Se fredagsbarer og deres åbningstider", style = TextStyle(Color.Black))
-            Text("-Se begivenheder fra fredagsbarer eller andres tour de fredagsbar", style = TextStyle(Color.Black))
-
-
-    }}
+    }
+}
 
 
 
